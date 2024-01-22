@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XYZ Movies</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #3498db, #6c5ce7);
+            color: #fff;
+            overflow: hidden;
+        }
+
+        h1 {
+            text-align: center;
+            padding: 20px 0;
+            font-size: 36px;
+        }
+
+        #seat-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #seat-map {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            transition: background-color 0.3s ease;
+        }
+
+        .seat {
+            width: 50px;
+            height: 50px;
+            margin: 10px;
+            background-color: #3498db;
+            cursor: pointer;
+            border: none;
+            border-radius: 10px;
+            transition: background-color 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 14px;
+            color: #fff;
+        }
+
+        .seat.booked {
+            background-color: #e74c3c;
+            cursor: not-allowed;
+        }
+
+        .seat.selected {
+            background-color: #6c5ce7;
+        }
+
+        #legend {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+            color: #fff;
+        }
+
+        .legend-item .box {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            border-radius: 5px;
+        }
+
+        .legend-item .box.available {
+            background-color: #3498db;
+        }
+
+        .legend-item .box.selected {
+            background-color: #6c5ce7;
+        }
+
+        .legend-item .box.booked {
+            background-color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <h1>XYZ Movies</h1>
+    <div id="seat-container">
+        <div id="seat-map"></div>
+    </div>
+    <div id="legend">
+        <div class="legend-item">
+            <div class="box available"></div>
+            Available
+        </div>
+        <div class="legend-item">
+            <div class="box selected"></div>
+            Selected
+        </div>
+        <div class="legend-item">
+            <div class="box booked"></div>
+            Booked
+        </div>
+    </div>
+
+    <script>
+        const rows = 6;
+        const cols = 8;
+        const seatMap = document.getElementById('seat-map');
+
+        // Create seat grid
+        for (let row = 1; row <= rows; row++) {
+            for (let col = 1; col <= cols; col++) {
+                const seat = document.createElement('div');
+                seat.classList.add('seat');
+                seat.dataset.row = row;
+                seat.dataset.col = col;
+                seat.innerHTML = `${row}${String.fromCharCode(65 + col - 1)}`;
+                seatMap.appendChild(seat);
+            }
+        }
+
+        // Add click event to seats
+        seatMap.addEventListener('click', function(event) {
+            const seat = event.target;
+
+            if (!seat.classList.contains('booked')) {
+                seat.classList.toggle('selected');
+            }
+        });
+    </script>
+</body>
+</html>
